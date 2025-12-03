@@ -576,14 +576,3 @@ def run_financial_analysis(query) -> Dict:
     return final_report
 
 
-if __name__ == "__main__":
-    # Example: Tesla analysis with JSON output
-    report = run_financial_analysis(
-        "I want to analyse beste lectronics company stock for the next 6 months"
-    )
-    
-    # Print formatted JSON to console
-    print("\n" + "="*80)
-    print("JSON OUTPUT:")
-    print("="*80)
-    print(json.dumps(report, indent=2))

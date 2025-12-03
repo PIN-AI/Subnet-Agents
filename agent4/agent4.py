@@ -183,9 +183,3 @@ class FoodPlanner:
         }
 
 
-# Example usage
-if __name__ == "__main__":
-    planner = FoodPlanner(SERPAPI_KEY)
-    user_prompt = "I want some tangy, creamy, savoury, flavourful nonveg dishes in Kharagpur"
-    recommendation = planner.generate_meal_recommendation(user_prompt)
-    print(json.dumps(recommendation, indent=2))

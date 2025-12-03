@@ -83,22 +83,16 @@ async def main():
     agent.register_callbacks(MyCallbacks())
 
 
-    reports = [
-        execution_report_pb2.ExecutionReport(
+    report = execution_report_pb2.ExecutionReport(
             assignment_id="assignment-1",
             intent_id="intent-123",
             agent_id="agent-1",
             status=execution_report_pb2.ExecutionReport.SUCCESS,
             timestamp=int(time.time()),
-        ),
-    ]
+        )
 
-    batch_req = service_pb2.ExecutionReportBatchRequest(
-        reports=reports,
-        partial_ok=False,
-    )
     try:
-        response = await validator_client.submit_execution_report_batch(batch_req)
+        response = await validator_client.submit_execution_report_batch(report)
         print(f"Batch results: {response.success} succeeded, {response.failed} failed")
     finally:
         await validator_client.close()
