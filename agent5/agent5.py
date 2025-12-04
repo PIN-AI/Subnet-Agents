@@ -106,8 +106,7 @@ class StockAnalysisAgent:
                 },
                 {"role": "user", "content": f"User query: {user_query}"},
             ],
-            response_format=StockInfoResponse,
-            temperature=0.1,
+            response_format=StockInfoResponse
         )
 
         data: StockInfoResponse = response.choices[0].message.parsed
@@ -190,8 +189,7 @@ class StockAnalysisAgent:
                 },
                 {"role": "user", "content": analysis_prompt},
             ],
-            response_format=RecommendationResponse,
-            temperature=0.3,
+            response_format=RecommendationResponse
         )
 
         parsed: RecommendationResponse = response.choices[0].message.parsed
@@ -256,8 +254,6 @@ def main():
     return analysis
 
 
-if __name__ == "__main__":
-    main()
 
 
 

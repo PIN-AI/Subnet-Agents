@@ -507,7 +507,6 @@ def agent_understand(query):
 
 
 def run_financial_analysis(query) -> Dict:
-    agent_understand(query)
 
     data = agent_understand(query=query)
 

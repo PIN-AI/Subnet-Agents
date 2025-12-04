@@ -1068,8 +1068,3 @@ def interactive_mode():
     return report
     
 
-interactive_mode()
-# Income Documents
-# Portfolio Brokerage statements
-# Deduction & Expense Documentation
-# Retirement & Contribution Records
