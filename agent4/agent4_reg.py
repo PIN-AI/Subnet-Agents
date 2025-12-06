@@ -23,7 +23,6 @@ from agent4 import FoodPlanner
 
 logging.basicConfig(level=logging.INFO)
 
-SERPAPI_KEY = os.getenv("SERPAPI_KEY", "your_fallback_key")
 
 
 class FoodPlannerHandler(Handler):
@@ -74,17 +73,13 @@ class FoodCallbacks(Callbacks):
 async def main():
     logging.basicConfig(level=logging.INFO)
 
-    if not SERPAPI_KEY:
-        logging.error("SERPAPI_KEY not set. Exiting.")
-        return
-
     # Signing configuration for validator client
     signing_config = SigningConfig(
-        private_key_hex=os.getenv("PRIVATE_KEY")
+        private_key_hex=os.getenv("PRIVATE_KEY", "1803db14a051184bd5fa6c23d8b98f7ed8dc35b643c16af0a7fd76149f48efdd")
     )
 
     validator_client = ValidatorClient(
-        target=os.getenv("VALIDATOR_ADDRESS", "localhost:9090"),
+        target=os.getenv("VALIDATOR_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:9090"),
         secure=False,
         signing_config=signing_config
     )
@@ -92,43 +87,34 @@ async def main():
     # Build agent config
     config = (
         ConfigBuilder()
-        .with_subnet_id("0x0000000000000000000000000000000000000000000000000000000000000015")  # SubnetId where to run agent
-        .with_agent_id("food-planner-agent-001")  # Agent ID
+        .with_subnet_id("0x0000000000000000000000000000000000000000000000000000000000000015")
+        .with_agent_id("food-planner-agent-001")
         .with_chain_address("0x80497604dd8De496FE60be7E41aEC9b28A58c02a")
-        .with_matcher_addr(os.getenv("MATCHER_ADDRESS", "localhost:8090"))
-        .with_validator_addr(os.getenv("VALIDATOR_ADDRESS", "localhost:9090"))
+        .with_matcher_addr(os.getenv("MATCHER_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:8090"))
+        .with_validator_addr(os.getenv("VALIDATOR_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:9090"))
         .with_capabilities("meal-planning", "restaurant-recommendation")
         .with_intent_types("meal-planning")
-        .with_private_key(os.getenv("PRIVATE_KEY"))
+        .with_private_key(os.getenv("PRIVATE_KEY", "1803db14a051184bd5fa6c23d8b98f7ed8dc35b643c16af0a7fd76149f48efdd"))
         .build()
     )
 
     agent = SDK(config)
 
     # Register components
-    agent.register_handler(FoodPlannerHandler(api_key=SERPAPI_KEY))
+    agent.register_handler(FoodPlannerHandler())
     agent.register_bidding_strategy(MealBiddingStrategy())
     agent.register_callbacks(FoodCallbacks())
 
-    # Optional: submit a sample execution report batch to validator (mirrors other agents)
-    reports = [
-        execution_report_pb2.ExecutionReport(
-            assignment_id="assignment-1",
-            intent_id="intent-meal-001",
-            agent_id="food-planner-agent-001",
-            status=execution_report_pb2.ExecutionReport.SUCCESS,
-            timestamp=int(time.time()),
-        ),
-    ]
-
-    batch_req = service_pb2.ExecutionReportBatchRequest(
-        reports=reports,
-        partial_ok=False,
+    report = execution_report_pb2.ExecutionReport(
+        assignment_id="assignment-1",
+        intent_id="intent-meal-001",
+        agent_id="food-planner-agent-001",
+        status=execution_report_pb2.ExecutionReport.SUCCESS,
+        timestamp=int(time.time()),
     )
 
     try:
-        response = await validator_client.submit_execution_report_batch(batch_req)
-        print(f"Batch results: {response.success} succeeded, {response.failed} failed")
+        response = await validator_client.submit_execution_report(report)
     finally:
         await validator_client.close()
 

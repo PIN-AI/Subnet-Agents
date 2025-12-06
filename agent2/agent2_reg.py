@@ -65,12 +65,12 @@ async def main():
 
     # Signing config
     signing_config = SigningConfig(
-        private_key_hex=os.getenv("PRIVATE_KEY")
+        private_key_hex=os.getenv("PRIVATE_KEY","1803db14a051184bd5fa6c23d8b98f7ed8dc35b643c16af0a7fd76149f48efdd")
     )
 
     # Validator client
     validator_client = ValidatorClient(
-        target=os.getenv("VALIDATOR_ADDRESS", "localhost:9090"),
+        target=os.getenv("VALIDATOR_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:9090"),
         secure=False,
         signing_config=signing_config
     )
@@ -78,14 +78,14 @@ async def main():
     # Build config
     config = (
         ConfigBuilder()
-        .with_subnet_id("0x0000000000000000000000000000000000000000000000000000000000000015")
+        .with_subnet_id(os.getenv("SUBNET_ID", "0x0000000000000000000000000000000000000000000000000000000000000015"))
         .with_agent_id("corporate-analysis-agent-001")
         .with_chain_address("0x80497604dd8De496FE60be7E41aEC9b28A58c02a")
-        .with_matcher_addr(os.getenv("MATCHER_ADDRESS", "localhost:8090"))
-        .with_validator_addr(os.getenv("VALIDATOR_ADDRESS", "localhost:9090"))
+        .with_matcher_addr(os.getenv("MATCHER_ADDRESS","ec2-54-157-130-202.compute-1.amazonaws.com:8090"))
+        .with_validator_addr(os.getenv("VALIDATOR_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:9090"))
         .with_capabilities("corporate-analysis", "financial-report")
         .with_intent_types("corporate-analysis")
-        .with_private_key(os.getenv("PRIVATE_KEY"))
+        .with_private_key(os.getenv("PRIVATE_KEY","1803db14a051184bd5fa6c23d8b98f7ed8dc35b643c16af0a7fd76149f48efdd"))
         .build()
     )
 
@@ -105,8 +105,8 @@ async def main():
             )
 
     try:
-        response = await validator_client.submit_execution_report_batch(report)
-        print(f"Batch results: {response.success} succeeded, {response.failed} failed")
+        response = await validator_client.submit_execution_report(report)
+        # print(f"Batch results: {response.success} succeeded, {response.failed} failed")
     finally:
         await validator_client.close()
 
