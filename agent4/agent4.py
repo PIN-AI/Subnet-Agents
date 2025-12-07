@@ -5,8 +5,8 @@ from datetime import timezone, datetime
 from openai import OpenAI
 import time
 
-# SERPAPI_KEY = "88e9df8bf5192113827878d7de00a1f19f57e04ff7d49e944acdd7d9a9f4a653"
-SERPAPI_KEY ="bcbe76132dcf615504d6b69af3145f65b5ecfc43501d4e813b60c99337e44312"
+SERPAPI_KEY = "88e9df8bf5192113827878d7de00a1f19f57e04ff7d49e944acdd7d9a9f4a653"
+# SERPAPI_KEY ="bcbe76132dcf615504d6b69af3145f65b5ecfc43501d4e813b60c99337e44312"
 client = OpenAI(
     api_key=os.getenv("OPENAI_API")
 )

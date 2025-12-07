@@ -113,7 +113,7 @@ print(json.dumps(recommendation, indent=2))
 ```python
 from food_planner import FoodPlanner
 
-planner = FoodPlanner("bcbe76132dcf615504d6b69af3145f65b5ecfc43501d4e813b60c99337e44312")
+planner = FoodPlanner("88e9df8bf5192113827878d7de00a1f19f57e04ff7d49e944acdd7d9a9f4a653")
 
 # Example 1: Non-vegetarian cuisine
 recommendation = planner.generate_meal_recommendation(

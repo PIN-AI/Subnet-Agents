@@ -213,11 +213,11 @@ def agent_understand(query):
 
 class FinNews():
     def fin_news_agent(self,query):
-        # tickers = agent_understand(query)['ticker']
-        # all_resp = []
-        # for ticker in tickers:
-        #     all_data = get_data(1,ticker)
-        #     all_resp.append(get_resp(all_data))
-        # return all_resp
-        return "some shit"
+        tickers = agent_understand(query)['ticker']
+        all_resp = []
+        for ticker in tickers:
+            all_data = get_data(1,ticker)
+            all_resp.append(get_resp(all_data))
+        return all_resp
+
 
