@@ -58,11 +58,10 @@ class MealBiddingStrategy(BiddingStrategy):
 
     def should_bid(self, intent: Intent) -> bool:
         logging.info(f"Evaluating intent {getattr(intent, 'id', '<unknown>')}")
-        return intent.type == "meal-planning"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        # simple fixed bid
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilites":"meal-planning,restaurant-recommendation"})
 
 
 class FoodCallbacks(Callbacks):

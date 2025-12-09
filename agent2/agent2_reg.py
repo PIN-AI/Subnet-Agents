@@ -49,10 +49,10 @@ class CorporateBiddingStrategy(BiddingStrategy):
 
     def should_bid(self, intent: Intent) -> bool:
         logging.info(f"Evaluating intent {intent.id}")
-        return intent.type == "corporate-analysis"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"corporate-analysis,financial-report"})
 
 
 class CorporateCallbacks(Callbacks):

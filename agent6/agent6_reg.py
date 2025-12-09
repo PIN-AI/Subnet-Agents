@@ -74,10 +74,10 @@ class PolymarketBiddingStrategy(BiddingStrategy):
 
     def should_bid(self, intent: Intent) -> bool:
         logging.info(f"Evaluating intent {getattr(intent, 'id', '<unknown>')}")
-        return intent.type == "polymarket-analysis"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"polymarket-analysis,reddit-sentiment"})
 
 
 class PolymarketCallbacks(Callbacks):

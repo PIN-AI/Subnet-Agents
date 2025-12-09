@@ -91,10 +91,10 @@ class HyperliquidBiddingStrategy(BiddingStrategy):
         logging.info("HyperliquidBiddingStrategy initialized")
 
     def should_bid(self, intent: Intent) -> bool:
-        return intent.type == "hyperliquid-trading"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"hyperliquid-trading,online-ml-signals"})
 
 
 class HyperliquidCallbacks(Callbacks):

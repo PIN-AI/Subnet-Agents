@@ -73,10 +73,10 @@ class StockBiddingStrategy(BiddingStrategy):
 
     def should_bid(self, intent: Intent) -> bool:
         logging.info(f"Evaluating intent {getattr(intent, 'id', '<unknown>')}")
-        return intent.type == "stock-analysis"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"stock-analysis,price-prediction"})
 
 
 class StockCallbacks(Callbacks):

@@ -63,10 +63,10 @@ class TaxBiddingStrategy(BiddingStrategy):
 
     def should_bid(self, intent: Intent) -> bool:
         logging.info(f"Evaluating intent {getattr(intent, 'id', '<unknown>')}")
-        return intent.type == "tax-optimization"
+        return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"tax-optimization,portfolio-analysis"})
 
 
 class TaxCallbacks(Callbacks):
@@ -91,7 +91,7 @@ async def main():
     # Build agent config
     config = (
         ConfigBuilder()
-        .with_subnet_id(os.getenv("SUBNET_ID", "0x0000000000000000000000000000000000000000000000000000000000000015"))
+        .with_subnet_id(os.getenv("SUBNET_ID", "0x0000000000000000000000000000000000000000000000000000000000000016"))
         .with_agent_id("tax-optimizer-agent-001")
         .with_chain_address("0x80497604dd8De496FE60be7E41aEC9b28A58c02a")
         .with_matcher_addr(os.getenv("MATCHER_ADDRESS", "ec2-54-157-130-202.compute-1.amazonaws.com:8090"))

@@ -43,7 +43,7 @@ class MyCustomBiddingStrategy(BiddingStrategy):
         return True
 
     def calculate_bid(self, intent: Intent):
-        return Bid(price=10, currency="PIN")
+        return Bid(price=10, currency="PIN",metadata={"capabilities":"news-analyser, financial-impact-predictor"})
 
 
 class MyCallbacks(Callbacks):
@@ -65,7 +65,7 @@ async def main():
 
     config = (
         ConfigBuilder()
-        .with_subnet_id(os.getenv("SUBNET_ID", "0x0000000000000000000000000000000000000000000000000000000000000015"))
+        .with_subnet_id(os.getenv("SUBNET_ID", "0x0000000000000000000000000000000000000000000000000000000000000016"))
         .with_agent_id("financial-news-agent-001")
         .with_chain_address("0x80497604dd8De496FE60be7E41aEC9b28A58c02a")
         .with_matcher_addr(os.getenv("MATCHER_ADDRESS","ec2-54-157-130-202.compute-1.amazonaws.com:8090"))
